@@ -1,0 +1,181 @@
+<?php
+$config = $this->getConfig(); 
+$sizeChartWitdh = $this->getLeftColumnWidth();
+?>
+<div class="modals-wrapper">
+    <div id="sizechartbox" class="modal-popup" >
+        <div id="sizechart" class="modal-inner-wrap">
+        <div class="close_icon"><i class="fa fa-close"></i></div>
+            <div>
+                <h2 style="text-align: center;"><?php echo $this->getTitile(); ?> Size Chart</h2>
+                 <p style="text-align: center;">Find your size for this dress:</p>
+            </div>
+            <div class="modal-content">
+                <div class="left-column" style="width:555px;">
+                    <div class="size">
+                        <div class="measurements">
+				
+                           
+                            <form id="sizechart_form" name="sizechart_form">
+                                <table>
+                                    <tr>
+                                    										<td id="headshoulder"><label style="line-height: 0.90;font-size: 11px;"for="shoulder">Shoulder:</label><br /><input name="shoulder" value="" type="text" size="3" id="shoulder" /></td>
+                                        <td id="busthead"><label style="line-height: 0.90;font-size: 11px;"for="bust">Chest:</label><br /><input name="bust" value="" type="text" size="3" id="bust" /></td>
+                                        <td id="waisthead"><label style="line-height: 0.90;font-size: 11px;"for="waist">Waist:</label><br /><input name="waist" value="" type="text" size="3" id="waist" /></td>
+                                        <td id="hiphead"><label style="line-height: 0.90;font-size: 11px;"for="hip">Hip:</label><br /><input name="hip" value="" type="text" size="3" id="hip" /></td>
+										<td id="headtop"><label style="line-height: 0.90;font-size: 11px;" for="lengthh">Length <p id="uniquetopdress">Top</p></label><input name="lengthh" value="" type="text" size="3" id="lengthh" /></td>
+										<td id="headbottom"><label style="line-height: 0.90;font-size: 11px;"for="lengthbtm">Length Bottom:</label><br /><input name="lengthbtm" value="" type="text" size="3" id="lengthbtm" /></td>
+
+                                    </tr>
+                                </table>
+                            </form>
+					
+                            <p><a href="#" id="convertsizeunits">Convert to Centimeters</a></p>
+                        </div>
+                        <div class="results">
+                            <p>Based on your measurements we recommend ordering size <strong id="size-value"></strong></p>
+                        </div>
+                    </div>
+                    <div class="chart">
+                        <table>
+                            <thead id="chart_head" style="background-color: <?php echo $config['sizechart_table_heading_color'] ?>">
+							 <tr>
+								<th class="text-center" id="sizeth">Size/Age
+								(in years)</th>
+								<th class="text-center" id="shoulderh">Shoulder</th>
+								<th class="text-center" id="busth">Chest</th>
+								<th class="text-center" id="waisth">Waist</th>
+								<th class="text-center" id="hipsh">Hips</th>
+								<th class="text-center" id="lengthtoph">Length <p id="uniquetopdress">Top</p></th>
+								<th class="text-center" id="lenthbottomh">Length Bottom</th>
+								
+							</tr>
+                                
+                            </thead>
+                            <tbody id="chart_values">
+							
+                                <?php echo $this->getTbody(); ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="notes">
+<p>For any customization queries write to us at: <a href="mailto:seema@sugarcandy.in">seema@sugarcandy.in</a></p>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <img src="<?php echo $this->getSkinUrl('sizechart/images/sizechart-siluete.jpg'); ?>" />
+                                    <div style="background-color:#F3738D;padding: 10px;margin: 22px auto;
+    width: 100px;"><img src="<?php echo $this->getSkinUrl('sizechart/images/sugarcandy-logo.png'); ?>"</div>
+                    <?php //echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN);?>
+                </div>
+
+            </div>
+            <div class="sizechart-credits">
+                Provided by <a href="http://www.extensionmall.com/" title="ExtensionsMall" target="_blank">ExtensionsMall</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    document.observe("dom:loaded", function () {
+        Event.observe('sizechartbutton', 'click', showModal);
+        var sizeChartObject = new sizeChart('sizechart_form');
+        $('convertsizeunits').on('click', function (event) {
+            sizeChartObject.changeUnits();
+            Event.stop(event);
+        });
+        new Form.Observer('sizechart_form', 0.5, function () {
+            sizeChartObject.findSize();
+        });
+    });
+    var closeModal = function (e) {
+        if (!e.target.descendantOf('sizechart')) {
+            $('sizechartbox').removeClassName('_show');
+            $('modals-overlay').remove();
+        }
+    };
+    var showModal = function (event) {
+        Event.stop(event);
+        $('sizechartbox').addClassName('_show').setStyle({
+            'z-index': '900'
+        });
+        $$('.modals-wrapper')[0].insert('<div id="modals-overlay" class="modals-overlay" style="z-index: 899;"></div>');
+       // Event.observe('sizechartbox', 'click', closeModal);
+    };
+    jQuery(document).ready(function(){
+        jQuery(".close_icon").click(function(){
+            jQuery("#sizechartbox").toggleClass("_show");
+            jQuery(".modals-overlay").remove();
+        })
+    })
+   // lengthtop 
+    var i =jQuery(".lengthtopval").text();
+    //alert(i);
+	var j =i.includes("-");
+	//alert(j);
+	if(j == true){
+	jQuery("#headtop").hide();
+	jQuery("#lengthtoph").hide();
+	jQuery(".lengthtopval").hide();
+	
+	}
+	   // lengthbottom
+    var ibottom =jQuery(".lengthbotomval").text();
+    //alert(i);
+	var jbottom =ibottom.includes("-");
+	//alert(j);
+	if(jbottom == true){
+	jQuery("#headbottom").hide();
+	jQuery("#lenthbottomh").hide();
+	jQuery(".lengthbotomval").hide();
+	
+	}
+		   // bust
+    var ibust =jQuery(".bustval").text();
+    //alert(i);
+	var jbust =ibust.includes("-");
+	//alert(j);
+	if(jbust == true){
+	jQuery("#busthead").hide();
+	jQuery("#busth").hide();
+	jQuery(".lengthbotomval").hide();
+	
+	}
+			   // waist
+    var ibust =jQuery(".waistval").text();
+    //alert(i);
+	var jbust =ibust.includes("-");
+	//alert(j);
+	if(jbust == true){
+	jQuery("#waisthead").hide();
+	jQuery("#waisth").hide();
+	jQuery(".waistval").hide();
+	
+	}
+				   // hip
+    var ihip =jQuery(".hipval").text();
+    //alert(i);
+	var jhip =ihip.includes("-");
+	//alert(j);
+	if(jhip == true){
+	jQuery("#hiphead").hide();
+	jQuery("#hipsh").hide();
+	jQuery(".hipval").hide();
+	
+	}
+				   // shoulder
+    var ishoulder =jQuery(".shoulderval").text();
+    //alert(i);
+	var jshoulder =ishoulder.includes("-");
+	//alert(j);
+	if(jshoulder == true){
+	jQuery("#shoulderh").hide();
+	jQuery("#headshoulder").hide();
+	jQuery(".shoulderval").hide();
+	
+	}
+	
+	
+</script>

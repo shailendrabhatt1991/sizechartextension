@@ -1,0 +1,40 @@
+<config>
+    <tabs>
+        <extensionsmall translate="label" module="extensionsmall_sizechart">
+            <label>ExtensionsMall</label>
+            <sort_order>300</sort_order>
+        </extensionsmall>
+    </tabs>
+    <sections>
+        <sizechart_options translate="label" module="extensionsmall_sizechart">
+            <label>SizeChart Settings</label>
+            <tab>extensionsmall</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <style translate="label">
+                    <label>Style</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <sizechart_table_heading_color>
+                            <label>Table Heading Color</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>extensionsmall_sizechart/adminhtml_system_config_form_field_color</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizechart_table_heading_color>
+                    </fields>           
+                </style>
+            </groups>                  
+        </sizechart_options>
+    </sections> 
+</config>
